@@ -1,0 +1,23 @@
+{
+  "detected_fields": {
+    "participant_email": "participant_email_a29017_723fd8_6c173d_20b3be_v2",
+    "qids_score": "qids_score_screening_42b0d5_714930_v2",
+    "eligibility": "overall_eligibility",
+    "study_id": "record_id",
+    "age": "age_c4982e_ee0b48_0fa205_450721"
+  },
+  "missing_tracking_fields": [],
+  "metadata_summary": {
+    "total_fields": 189,
+    "forms": [
+      "online_screening_survey_approved_31022_ee71ef_0bf27f",
+      "online_screening_survey_approved_250320",
+      "online_screening_survey_approved_31022",
+      "nimh_demographics_survey_post_consent",
+      "participant_tracking",
+      "online_screening_survey_approved_31022_ee71ef",
+      "online_screening_survey_unapproved_8924",
+      "online_screening_survey_approved_31022_ee71ef_0bf27f_947454"
+    ]
+  }
+}

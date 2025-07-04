@@ -1,0 +1,23 @@
+Variable / Field Name,Form Name,Section Header,Field Type,Field Label,"Choices, Calculations, OR Slider Labels",Field Note,Text Validation Type OR Show Slider Number,Text Validation Min,Text Validation Max,Identifier?,Branching Logic (Show field only if...),Required Field?,Custom Alignment,Question Number (surveys only),Matrix Group Name,Matrix Ranking?,Field Annotation
+study_id,participant_tracking,,text,Study ID,,Automatically assigned participant identifier (HC-#### or MDD-####),,,,,,,,,,,@READONLY
+eligibility_email_sent,participant_tracking,,yesno,Eligibility Email Sent,"1, Yes | 0, No",Has the eligibility notification email been sent?,,,,,,,,,,,
+email_sent_timestamp,participant_tracking,,text,Email Sent Timestamp,,When the eligibility email was sent,datetime_seconds_ymd,,,,,,,,,,@READONLY
+calendly_booked,participant_tracking,,yesno,Appointment Booked,"1, Yes | 0, No",Has participant booked an appointment?,,,,,,,,,,,
+calendly_date,participant_tracking,,text,Appointment Date,,,date_ymd,,,,,,,,,,
+calendly_time,participant_tracking,,text,Appointment Time,,,time,,,,,,,,,,
+appointment_type,participant_tracking,,dropdown,Appointment Type,"1, Consent Session | 2, MRI Session | 3, TMS Session | 4, Other",,,,,,,,,,,,
+consent_scheduled,participant_tracking,,yesno,Consent Session Scheduled,"1, Yes | 0, No",,,,,,,,,,,,
+consent_date,participant_tracking,,text,Consent Session Date,,,date_ymd,,,,,,,,,,
+consent_completed,participant_tracking,,yesno,Consent Session Completed,"1, Yes | 0, No",,,,,,,,,,,,
+mri_scheduled,participant_tracking,,yesno,MRI Session Scheduled,"1, Yes | 0, No",,,,,,,,,,,,
+mri_date,participant_tracking,,text,MRI Session Date,,,date_ymd,,,,,,,,,,
+mri_completed,participant_tracking,,yesno,MRI Session Completed,"1, Yes | 0, No",,,,,,,,,,,,
+tms_scheduled,participant_tracking,,yesno,TMS Session Scheduled,"1, Yes | 0, No",,,,,,,,,,,,
+tms_date,participant_tracking,,text,TMS Session Date,,,date_ymd,,,,,,,,,,
+tms_completed,participant_tracking,,yesno,TMS Session Completed,"1, Yes | 0, No",,,,,,,,,,,,
+appointment_confirmation_sent,participant_tracking,,yesno,Appointment Confirmation Sent,"1, Yes | 0, No",,,,,,,,,,,,
+confirm_sent_timestamp,participant_tracking,,text,Confirmation Sent Timestamp,,,datetime_seconds_ymd,,,,,,,,,,@READONLY
+appointment_reminder_sent,participant_tracking,,yesno,Appointment Reminder Sent,"1, Yes | 0, No",,,,,,,,,,,,
+reminder_sent_timestamp,participant_tracking,,text,Reminder Sent Timestamp,,,datetime_seconds_ymd,,,,,,,,,,@READONLY
+appointment_status,participant_tracking,,dropdown,Overall Appointment Status,"1, Not Started | 2, Consent Scheduled | 3, Consent Completed | 4, MRI Scheduled | 5, MRI Completed | 6, TMS Scheduled | 7, TMS Completed | 8, Study Completed | 9, Withdrawn | 10, Lost to Follow-up",,,,,,,,,,,,
+appointment_scheduled_via,participant_tracking,,text,Scheduling Method,,"How appointment was scheduled (e.g., stanford_scheduler, calendly, manual)",,,,,,,,,,,

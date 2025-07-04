@@ -1,0 +1,16 @@
+--- scheduler.py.orig   2025-06-28 16:00:00.000000000 -0700
++++ scheduler.py        2025-06-28 16:45:00.000000000 -0700
+@@ -184,7 +184,11 @@
+             study_id, record_id, expires_at, used_at = result
+             
+             # Check if expired
+-            if datetime.strptime(expires_at, '%Y-%m-%d %H:%M:%S') < datetime.now():
++            # Handle both with and without microseconds
++            try:
++                expires_dt = datetime.strptime(expires_at, '%Y-%m-%d %H:%M:%S.%f')
++            except ValueError:
++                expires_dt = datetime.strptime(expires_at, '%Y-%m-%d %H:%M:%S')
++            if expires_dt < datetime.now():
+                 return None
+             
+             # Update access count
