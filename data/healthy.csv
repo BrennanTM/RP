@@ -1,0 +1,54 @@
+Variable / Field Name,Form Name,Section Header,Field Type,Field Label,"Choices, Calculations, OR Slider Labels",Field Note,Text Validation Type OR Show Slider Number,Text Validation Min,Text Validation Max,Identifier?,Branching Logic (Show field only if...),Required Field?,Custom Alignment,Question Number (surveys only),Matrix Group Name,Matrix Ranking?,Field Annotation
+record_id,combined_screening_survey,,text,Record ID,,,,,,,,,,,,,
+participant_group,combined_screening_survey,,radio,Participant Group,"1, MDD Group | 2, Healthy Control Group",Select the participant group for this screening,,,,,,y,,,,,
+instructions,combined_screening_survey,,descriptive,"<div class=""rich-text-field-label""><p style=""text-align: center;"">Confidentiality Statement : </p> <p><br><span style=""font-weight: normal;"">The screening interview you are about to begin will be used solely for the purpose of determining your eligibility for one or more of our studies. This screening will take approximately 5-10 minutes. If you agree to participate in this screening, you will be asked information about your medical history, current medications, and current psychological symptoms. Please note that this information will be kept confidential and will only be used for the purpose of determining your eligibility for research studies. If you have any questions about this screening, please contact us at [contact information]. </span></p></div>",,,,,,,,,,,,,
+agree_participate,combined_screening_survey,,radio,Once you consent to participate the survey questions will be visible.  Do you agree to participate?,"1, Yes | 0, No",,,,,,,,,,,,
+date,combined_screening_survey,,text,Today's Date ,,,date_mdy,,,,,,,,,,
+age,combined_screening_survey,,text,Age,,,integer,18,89,,,,,,,,
+sex,combined_screening_survey,,radio,Sex,"0, Female | 1, Male | 2, Other",,,,,,,,,,,,
+handedness,combined_screening_survey,,radio,Are you right or left handed? ,"0, Right-handed | 1, Left-handed",,,,,,,,,,,,
+distance,combined_screening_survey,,dropdown,"What distance do you live from Stanford, Palo Alto","1, < 5 miles | 2, 5 - 15 miles | 3, 15 - 30 miles | 4, 30 - 50 miles | 5, 50 - 100 miles | 6, >100 miles | 7, >250 miles",,,,,,,,,,,,
+travel,combined_screening_survey,,radio,Would you be able to travel to Palo Alto for study visits? Typically studies require between 1-3 visits.,"1, Yes | 0, No",,,,,,,,,,,,
+age_eligibility,combined_screening_survey,,calc,Age eligibility:,"if([age] >= 18 and [age] <= 89, ""Eligible"", ""Not Eligible"")",,,,,,,,,,,,
+travel_eligibility,combined_screening_survey,,calc,Travel eligibility:,"if([travel] = 1, ""Eligible"", ""Not Eligible"")",,,,,,,,,,,,
+english,combined_screening_survey,,radio,Are you fluent in English?,"1, Yes | 0, No",,,,,,,,,,,,
+language_eligibility,combined_screening_survey,,calc,Language eligibility:,"if([english] = 1, ""Eligible"", ""Not Eligible"")",,,,,,,,,,,,
+tms_contraindications,combined_screening_survey,,radio,"<div class=""rich-text-field-label""><p>Do any of the following apply to you?</p> <p><br><span style=""font-weight: normal;"">- Metal implants in your head (excluding dental work)<br>- Pacemaker or other implanted electronic device<br>- History of seizures or epilepsy<br>- Brain tumor or other brain pathology<br>- Frequent or severe headaches<br>- Any other metal objects in your body<br>- Pregnancy<br>- History of head injury with loss of consciousness</span></p></div>","0, No | 1, Yes",,,,,,,,,,,,
+contraindication_eligibility,combined_screening_survey,,calc,Contraindication eligibility:,"if([tms_contraindications] = 0, ""Eligible"", ""Not Eligible"")",,,,,,,,,,,,
+medication_list,combined_screening_survey,,descriptive,"Please review this list of medications. 
+
+Antidepressants:
+- SSRIs (Prozac, Zoloft, Paxil, Celexa, Lexapro)
+- SNRIs (Effexor, Cymbalta, Pristiq)
+- Tricyclics (Elavil, Tofranil, Pamelor)
+- MAOIs (Nardil, Parnate, Marplan)
+- Atypical antidepressants (Wellbutrin, Remeron, Trazodone)
+
+Mood stabilizers:
+- Lithium
+- Anticonvulsants (Depakote, Lamictal, Tegretol)
+
+Antipsychotics:
+- Typical (Haldol, Thorazine)
+- Atypical (Abilify, Risperdal, Zyprexa, Seroquel)
+
+Anti-anxiety medications:
+- Benzodiazepines (Xanax, Ativan, Klonopin, Valium)
+- Buspar
+
+Sleep medications:
+- Ambien, Lunesta, Trazodone
+
+Stimulants:
+- Adderall, Ritalin, Concerta, Vyvanse
+
+Other psychiatric medications:
+- Neurontin, Topamax, Provigil",,,,,,,,,,,,,
+current_medications,combined_screening_survey,,yesno,Are you taking any of the above medications currently? ,,,,,,,,,,,,,
+qids_survey,combined_screening_survey,,descriptive,Please complete the QIDS survey below and note your total score (visible once all required questions are answered):,,,,,,,,,,,,,
+qids_score,combined_screening_survey,,text,Please report your score from the assessment above here: ,,,integer,0,30,,,,,,,,
+overall_eligibility,combined_screening_survey,,calc,Overall Study Eligibility,"if([age_eligibility] = ""Eligible"" and [travel_eligibility] = ""Eligible"" and [language_eligibility] = ""Eligible"" and [contraindication_eligibility] = ""Eligible"", ""Eligible"", ""Not Eligible"")",,,,,,,,,,,,
+covid_vaccination,combined_screening_survey,,radio,"Have you been fully vaccinated against COVID-19 (2 doses if Moderna/Pfizer-BioNTech, 1 dose if J+J) or received a booster shot?","1, Yes | 0, No",,,,,,,,,,,,
+keep_record,combined_screening_survey,,yesno,May we keep your record on file for future data analysis? Keeping your information on file can help us contact you about future research studies that you may be eligible for. ,,,,,,,,,,,,,
+participant_email,combined_screening_survey,,text,Please enter your email here: ,,,email,,,,,,,,,,
+feedback,combined_screening_survey,,notes,"Do you have any questions, concerns, or general feedback about this survey? In this field please let us know your thoughts on the survey, the research, or anything else you'd like to share with us. ",,,,,,,,,,,,,

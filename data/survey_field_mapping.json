@@ -1,0 +1,135 @@
+{
+  "survey_configurations": {
+    "healthy": {
+      "survey_name": "Healthy Control Survey",
+      "form_name": "healthy",
+      "complete_field": "healthy_complete",
+      "id_prefix": "HC",
+      "id_start": 3466,
+      "required_fields": {
+        "email": {
+          "field_patterns": ["email", "contact_email", "participant_email"],
+          "required": true
+        },
+        "age": {
+          "field_patterns": ["age", "participant_age", "demographics_age"],
+          "required": true,
+          "validation": {
+            "min": 18,
+            "max": 65
+          }
+        },
+        "consent": {
+          "field_patterns": ["consent", "agree", "willing"],
+          "required": true,
+          "expected_value": "1"
+        }
+      },
+      "exclusion_criteria": {
+        "neurological": {
+          "field_patterns": ["neuro", "brain_injury", "seizure"],
+          "exclude_if": "1"
+        },
+        "psychiatric": {
+          "field_patterns": ["psych_history", "medication"],
+          "exclude_if": "1"
+        },
+        "mri_safety": {
+          "field_patterns": ["metal", "implant", "pacemaker"],
+          "exclude_if": "1"
+        }
+      }
+    },
+    "mdd": {
+      "survey_name": "Major Depressive Disorder Survey",
+      "form_name": "mdd",
+      "complete_field": "mdd_complete",
+      "id_prefix": "MDD",
+      "id_start": 10926,
+      "required_fields": {
+        "email": {
+          "field_patterns": ["email", "contact_email", "participant_email"],
+          "required": true
+        },
+        "age": {
+          "field_patterns": ["age", "participant_age", "demographics_age"],
+          "required": true,
+          "validation": {
+            "min": 18,
+            "max": 65
+          }
+        },
+        "consent": {
+          "field_patterns": ["consent", "agree", "willing"],
+          "required": true,
+          "expected_value": "1"
+        },
+        "depression_severity": {
+          "field_patterns": ["phq", "depression_score", "mood_score"],
+          "required": true,
+          "validation": {
+            "min": 10
+          }
+        }
+      },
+      "exclusion_criteria": {
+        "psychosis": {
+          "field_patterns": ["psychosis", "hallucination", "delusion"],
+          "exclude_if": "1"
+        },
+        "substance": {
+          "field_patterns": ["substance", "alcohol", "drug"],
+          "exclude_if": "1"
+        },
+        "mri_safety": {
+          "field_patterns": ["metal", "implant", "pacemaker"],
+          "exclude_if": "1"
+        },
+        "pregnancy": {
+          "field_patterns": ["pregnant", "pregnancy"],
+          "exclude_if": "1"
+        }
+      }
+    }
+  },
+  "tracking_fields": {
+    "description": "Fields to add to REDCap for tracking participants",
+    "fields": [
+      {
+        "field_name": "study_id",
+        "field_type": "text",
+        "field_label": "Study ID",
+        "field_note": "Automatically assigned (HC-#### or MDD-####)"
+      },
+      {
+        "field_name": "survey_type",
+        "field_type": "dropdown",
+        "field_label": "Survey Type",
+        "choices": "healthy, Healthy Control | mdd, Major Depressive Disorder"
+      },
+      {
+        "field_name": "eligibility_email_sent",
+        "field_type": "yesno",
+        "field_label": "Eligibility Email Sent"
+      },
+      {
+        "field_name": "email_sent_timestamp",
+        "field_type": "text",
+        "field_label": "Email Sent Timestamp",
+        "validation": "datetime_seconds_ymd"
+      }
+    ]
+  },
+  "email_templates": {
+    "healthy": {
+      "subject_suffix": "Healthy Control Participant",
+      "study_description": "healthy control group",
+      "additional_info": "As a healthy control participant, you will help us establish baseline measurements for comparison with clinical populations."
+    },
+    "mdd": {
+      "subject_suffix": "Clinical Research Participant",
+      "study_description": "clinical research group",
+      "additional_info": "Your participation will help us better understand brain connectivity patterns associated with mood disorders."
+    }
+  }
+}
