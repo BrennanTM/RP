@@ -46,7 +46,6 @@ graph TD
         S1(S1: ID Assigner Service)
         S2(S2: Invitation Service)
         S3(S3: Ineligible Notification Service)
-        S4(S4: Reporting Service)
     end
 
     R --o|Polls Pending Records| S1
@@ -59,8 +58,6 @@ graph TD
     R --o|Polls Ineligible| S3
     S3 -->|Updates REDCap: Notification Sent Timestamp, Status (Notified)| R
 
-    R --o|Reads All Records| S4
-
     S2 -->|Send Invitation Email| MSAPI(Microsoft Graph API)
     S3 -->|Send Notification Email| MSAPI
 
@@ -70,7 +67,6 @@ graph TD
     style S1 fill:#9cf,stroke:#333,stroke-width:2px
     style S2 fill:#9cf,stroke:#333,stroke-width:2px
     style S3 fill:#9cf,stroke:#333,stroke-width:2px
-    style S4 fill:#9cf,stroke:#333,stroke-width:2px
 ```
 
 ### Data Flow Summary (SSOT Architecture)
@@ -82,7 +78,6 @@ graph TD
    - **Review Required:** Updates REDCap with `pipeline_processing_status = 'manual_review_required'`
 3. **[S2] Invitation Service** polls REDCap for `pipeline_processing_status = 'eligible_id_assigned'`. Sends Microsoft Bookings invitations via MS Graph API and updates REDCap with `pipeline_invitation_sent_timestamp` and `pipeline_processing_status = 'eligible_invited'`.
 4. **[S3] Ineligible Notification Service** polls REDCap for `pipeline_processing_status = 'ineligible'`. Sends notifications via MS Graph API and updates REDCap with `pipeline_ineligible_notification_sent_timestamp` and `pipeline_processing_status = 'ineligible_notified'`.
-5. **[S4] Reporting Service** reads all data directly from REDCap to generate enrollment reports.
 
 ### Key SSOT Principles
 
@@ -101,7 +96,6 @@ graph TD
 | **S1: ID Assigner** | `eligible_id_assigner.py` | The core service. Polls REDCap for pending records, applies eligibility rules with QIDS validation, assigns Study IDs (HC/MDD) with concurrency handling, and updates REDCap status fields. |
 | **S2: Invitation Service** | `outlook_autonomous_scheduler.py` | Monitors REDCap for eligible participants (`pipeline_processing_status = 'eligible_id_assigned'`) and sends personalized invitations with Microsoft Bookings links. Uses independent MSAL authentication with automatic token refresh. |
 | **S3: Ineligible Notifier** | `send_ineligible_emails_fixed.py` | Monitors REDCap for ineligible participants (`pipeline_processing_status = 'ineligible'`) and sends professional notifications. Has independent MSAL authentication - not dependent on S2. |
-| **S4: Report Generator** | `redcap_weekly_report.py` | Generates comprehensive HTML enrollment reports with visualizations by reading all data directly from REDCap (SSOT). |
 
 ### Utility Modules
 
@@ -128,7 +122,6 @@ graph TD
   - `Mail.Send.Shared` (To send mail on behalf of the lab account)
   - `Mail.Send`
   - `User.Read`
-  - `offline_access` (Crucial for long-running autonomous operation)
 - **Operating System:** Linux environment capable of running `systemd` user services
 
 ## Installation and Setup
@@ -136,8 +129,8 @@ graph TD
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/your-organization/redcap-recruitment-pipeline.git
-   cd redcap-recruitment-pipeline
+   git clone https://github.com/PrecisionNeuroLab/Automated-REDCap-Recruitment-Pipeline.git
+   cd Automated-REDCap-Recruitment-Pipeline
    ```
 
 2. **Set up a Python virtual environment and install dependencies:**
@@ -185,7 +178,7 @@ ALLOW_TEST_EMAILS=false
 
 The pipeline uses delegated authentication via MSAL to send emails autonomously. Each service manages its own authentication independently.
 
-1. **Ensure Redirect URI:** Verify that the Azure Application's redirect URI is set to `http://localhost:8080` for the initial authentication flow.
+1. **Ensure Redirect URI:** Verify that the Azure Application's redirect URI is set to `http://localhost:8000` for the initial authentication flow.
 
 2. **Initial Authentication for Each Service:**
 
@@ -268,19 +261,14 @@ journalctl --user -u redcap-email-scheduler -f
 
 Logs are also written directly to the `./logs` directory (e.g., `logs/outlook_autonomous.log`).
 
-### Generating Reports
+### Service Overview
 
-To generate the weekly enrollment report:
+The pipeline consists of three core services:
+- **ID Assigner Service** (`eligible_id_assigner.py`)
+- **Invitation Service** (`outlook_autonomous_scheduler.py`)
+- **Ineligible Notification Service** (`send_ineligible_emails_fixed.py`)
 
-```bash
-# Generate report excluding test records (default)
-python redcap_weekly_report.py
-
-# Generate report including test records
-python redcap_weekly_report.py --include-test
-```
-
-The HTML report will be saved in the `./reports` directory.
+All services query REDCap directly for current state (SSOT architecture).
 
 ## License
 
