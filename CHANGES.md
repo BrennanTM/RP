@@ -62,19 +62,29 @@ This refactoring addressed 7 major architectural issues identified in code revie
 ### Changes Made
 
 **eligible_id_assigner.py**
-- Added: Constraint-Parse-and-Retry pattern in `assign_study_id()` method
-- Added: `_parse_constraint_error()` method to detect concurrent assignment attempts
-- Added: Exponential backoff retry logic (0.5s, 1s, 2s, 4s, 8s delays)
-- Added: Maximum 5 retry attempts before marking for manual review
+- Added: Constraint-Parse-and-Retry pattern in ID assignment loop
+- Added: `RedcapApiError.is_unique_constraint_violation()` method in redcap_client.py to detect concurrent assignment attempts
+- Added: Exponential backoff retry logic (0.5s, 1s, 2s delays)
+- Added: Maximum 3 retry attempts before failing the assignment
 
 **Implementation Details**
 ```python
-# Detects REDCap constraint errors indicating duplicate ID
-if response.status_code in [400, 409, 422]:
-    if self._is_constraint_error(response):
-        # Exponential backoff and retry with new ID
+# In redcap_client.py - RedcapApiError class
+def is_unique_constraint_violation(self):
+    if self.status_code in [400, 409, 422] and self.response_body:
+        body_lower = self.response_body.lower()
+        for detection_str in self.detection_strings:
+            if detection_str.lower() in body_lower:
+                return True
+    return False
 
-# Error messages checked:
+# In eligible_id_assigner.py - retry loop
+except RedcapApiError as e:
+    if e.is_unique_constraint_violation():
+        # Exponential backoff and retry with new ID
+        time.sleep(0.5 * (2 ** attempt))
+
+# Detection strings (configurable via .env):
 - "unique constraint"
 - "duplicate"
 - "already exists"
@@ -315,7 +325,7 @@ if response.status_code in [400, 409, 422]:
 
 **Final Structure**
 - 5 Python modules (core functionality)
-- 3 configuration/documentation files
+- 4 configuration/documentation files (.gitignore, requirements.txt, README.md, CHANGES.md)
 - Clear separation of concerns
 
 ### Result
