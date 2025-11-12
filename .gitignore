@@ -1,0 +1,66 @@
+# Environment variables (Security critical)
+.env
+
+# Authentication Caches (Security critical)
+.auth_cache_*.json
+outlook_token.json
+
+# Data, Logs, and Reports (Local files)
+data/
+logs/
+reports/
+
+# Python artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+build/
+dist/
+
+# Virtual Environments
+venv/
+env/
+.venv/
+
+# OS/IDE files
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+Thumbs.db
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pytest
+.pytest_cache/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+
+# Documentation builds
+docs/_build/
+docs/_static/
+docs/_templates/
+
+# Package files
+*.egg-info/
+*.egg
+pip-wheel-metadata/
+
+# Backup files
+*.bak
+*.backup
+*.old
