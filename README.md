@@ -50,13 +50,13 @@ graph TD
 
     R --o|Polls Pending Records| S1
     S1 -->|Evaluates Eligibility & Assigns ID| S1
-    S1 -->|Updates REDCap: StudyID, Status (Eligible/Ineligible/Review)| R
+    S1 -->|Updates REDCap: StudyID, Status| R
 
-    R --o|Polls Eligible (ID Assigned)| S2
-    S2 -->|Updates REDCap: Invitation Sent Timestamp, Status (Invited)| R
+    R --o|Polls Eligible Records| S2
+    S2 -->|Updates REDCap: Invitation Timestamp| R
 
-    R --o|Polls Ineligible| S3
-    S3 -->|Updates REDCap: Notification Sent Timestamp, Status (Notified)| R
+    R --o|Polls Ineligible Records| S3
+    S3 -->|Updates REDCap: Notification Timestamp| R
 
     S2 -->|Send Invitation Email| MSAPI(Microsoft Graph API)
     S3 -->|Send Notification Email| MSAPI
@@ -269,21 +269,3 @@ The pipeline consists of three core services:
 - **Ineligible Notification Service** (`send_ineligible_emails_fixed.py`)
 
 All services query REDCap directly for current state (SSOT architecture).
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Contributing
-
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests.
-
-## Authors
-
-* **Your Organization** - *Initial work* - [YourOrganization](https://github.com/your-organization)
-
-## Acknowledgments
-
-* REDCap Consortium for the robust clinical data capture platform
-* Microsoft Graph API team for comprehensive email automation capabilities
-* All contributors who have helped shape this pipeline
